@@ -168,6 +168,8 @@ var TruffleContractSchema = {
     ajv.addSchema(abiSchema);
     ajv.addSchema(networkObjectSchema);
     ajv.addSchema(contractObjectSchema);
+    return contractObj;
+    /*
     if (ajv.validate("contract-object.spec.json", contractObj)) {
       return contractObj;
     } else {
@@ -198,6 +200,7 @@ var TruffleContractSchema = {
       error.errors = ajv.errors;
       throw error;
     }
+    */
   },
 
   // accepts as argument anything that can be turned into a contract object
