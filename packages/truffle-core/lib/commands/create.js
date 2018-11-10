@@ -17,7 +17,7 @@ var command = {
       {
         option: "<artifact_type>",
         description: "Create a new artifact where artifact_type is one of the following: " +
-          "contract, migration\n                    or test. The new artifact is created " +
+          "rust-contract, contract, migration\n                    or test. The new artifact is created " +
           "along with one of the following files:\n                    `contracts/ArtifactName.sol`, " +
           "`migrations/####_artifact_name.js` or\n                    `tests/artifact_name.js`. (required)",
       },{
@@ -57,12 +57,19 @@ var command = {
       return done(new ConfigurationError("The name " + name + " is invalid. Please enter a valid name using alpha-numeric characters."));
     }
 
+
+    // to support rust-contract at the cli instead of rust_contract
+    // the rest of the code uses rust_contract, so that we can refer to
+    // attributes on objects
+    type = type.replace(/-/g, '_');
+
     var fn = create[type];
 
     if (fn == null) return done(new ConfigurationError("Cannot find creation type: " + type));
 
     var destinations = {
       "contract": config.contracts_directory,
+      "rust_contract": config.contracts_directory,
       "migration": config.migrations_directory,
       "test": config.test_directory
     };

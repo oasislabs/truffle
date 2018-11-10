@@ -12,6 +12,11 @@ var templates = {
     name: "Example",
     variable: "example"
   },
+  rust_contract: {
+    filename: path.join(__dirname, "templates", "example"),
+    name: "Example",
+    variable: "example"
+  },
   migration: {
     filename: path.join(__dirname, "templates", "migration.js"),
   }
@@ -39,18 +44,50 @@ var replaceContents = function(file_path, find, replacement, callback) {
 };
 
 var toUnderscoreFromCamel = function(string) {
+  return toDelimiterFromCamel(string, "_");
+};
+
+var toHyphenFromCamel = function(string) {
+  return toDelimiterFromCamel(string, "-");
+};
+
+var toDelimiterFromCamel = function(string, delimiter) {
   string = string.replace(/([A-Z])/g, function($1) {
-    return "_" + $1.toLowerCase();
+    return delimiter + $1.toLowerCase();
   });
 
-  if (string[0] == "_") {
+  if (string[0] == delimiter) {
     string = string.substring(1);
   }
 
   return string;
 };
 
+
 var Create = {
+  rust_contract: function(directory, name, options, callback) {
+    if(typeof options == "function") {
+      callback = options;
+    }
+
+    const crateName = toHyphenFromCamel(name);
+
+    var from = templates.rust_contract.filename;
+    var to = path.join(directory, crateName);
+
+    if (!options.force && fs.existsSync(to)) {
+      return callback(new Error('Can not create ' + name + ': file exists'));
+    }
+
+    copy(from, to, function(err) {
+      if (err) return callback(err);
+
+      const cargoTomlPath = path.join(to, "Cargo.toml");
+      const contractTraitPath = path.join(to, "src", "lib.rs");
+      replaceContents(cargoTomlPath, templates.contract.variable, crateName, callback);
+      replaceContents(contractTraitPath, templates.contract.name, name, callback);
+    });
+  },
   contract: function(directory, name, options, callback) {
     if(typeof options == "function") {
       callback = options;
