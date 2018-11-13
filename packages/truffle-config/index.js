@@ -22,7 +22,19 @@ function Config(truffle_directory, working_directory, network) {
   // This is a list of multi-level keys with defaults
   // we need to _.merge. Using this list for safety
   // vs. just merging all objects.
-  this._deepCopy = ["compilers"];
+  //
+  // We *do-not* enforce truffle's requirement to use their default solc config.
+  // In other words, truffle will not use solc by default.
+  // We do this because truffle compiles all the "compilers" asyncronously and
+  // as a result, we cannot easily wait for their compiled artifact to be complete
+  // before prepending the confidential prefix in our compiler extension--since
+  // the compiler extension runs at the same time as truffle-compile.
+  // Instead, we disable truffle's requirement to *always* run solc, instead,
+  // running it ourself with `truffle-compile`, and prepending the prefix afterwards.
+  // See oasislabs/oasis-compiler.
+  //
+  // previously: this._deepCopy = ["compilers"];
+  this._deepCopy = [];
 
   this._values = {
     truffle_directory:
