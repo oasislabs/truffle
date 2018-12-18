@@ -274,7 +274,7 @@ module.exports = {
           "templates/"
         ),
         to: "templates",
-        flatten: true
+        flatten: false
       }
     ]),
 
