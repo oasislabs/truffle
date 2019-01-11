@@ -1,5 +1,5 @@
 {
-  "name": "truffle",
+  "name": "truffle-oasis",
   "namespace": "consensys",
   "version": "5.0.0",
   "description": "Truffle - Simple development framework for Ethereum",
@@ -51,9 +51,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/trufflesuite/truffle.git"
+    "url": "https://github.com/oasislabs/truffle.git"
   },
-  "homepage": "https://github.com/trufflesuite/truffle/",
+  "homepage": "https://github.com/oasislabs/truffle",
   "bugs": {
     "url": "https://github.com/trufflesuite/truffle/issues"
   },
@@ -63,6 +63,11 @@
       "name": "Tim Coulter",
       "email": "tim@timothyjcoulter.com",
       "url": "https://github.com/tcoulter"
+    },
+    {
+      "name": "Oasis Labs",
+      "email": "info@oasislabs.com",
+      "url": "https://www.oasislabs.com"
     }
   ],
   "publishConfig": {
