@@ -4,6 +4,9 @@ const DeferredChain = require("./src/deferredchain");
 const Deployment = require("./src/deployment");
 const link = require("./src/actions/link");
 const create = require("./src/actions/new");
+const Web3 = require("web3");
+const Web3c = require("web3c");
+const web3c = new Web3c(undefined, Web3);
 
 class Deployer extends Deployment {
 
@@ -41,10 +44,21 @@ class Deployer extends Deployment {
     return this.queueOrExec(link(library, destinations, this));
   }
 
-
   deploy() {
-    const args = Array.prototype.slice.call(arguments);
+    let args = Array.prototype.slice.call(arguments);
     const contract = args.shift();
+    let options = args[args.length-1];
+    if (options && options.oasis) {
+      let bytecode = contract._json.bytecode;
+      let header = options.oasis;
+      contract._json.bytecode = web3c.oasis.utils.DeployHeader.deployCode(
+        header,
+        bytecode
+      );
+      // Truffle doesn't expect the Oasis deploy header so remove it.
+      args = args.slice(0, args.length-2);
+    }
+
     return this.queueOrExec(this.executeDeployment(contract, args, this));
   }
 
