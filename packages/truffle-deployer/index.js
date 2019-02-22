@@ -56,7 +56,7 @@ class Deployer extends Deployment {
         bytecode
       );
       // Truffle doesn't expect the Oasis deploy header so remove it.
-      args = args.slice(0, args.length-2);
+      args = args.slice(0, args.length-1);
     }
 
     return this.queueOrExec(this.executeDeployment(contract, args, this));

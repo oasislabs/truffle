@@ -1,7 +1,7 @@
 {
   "name": "truffle-oasis",
   "namespace": "consensys",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "description": "Truffle - Simple development framework for Ethereum",
   "dependencies": {
     "app-module-path": "^2.2.0",
